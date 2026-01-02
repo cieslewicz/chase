@@ -98,17 +98,41 @@ export class Game {
         this.canvas.addEventListener('mousemove', (e) => updateMouse(e.clientX, e.clientY));
 
         // Touch movement
+        // Touch Start - Grab Logic
         this.canvas.addEventListener('touchstart', (e) => {
-            // Prevent default to stop scrolling/zooming while playing
             if (e.cancelable) e.preventDefault();
             const touch = e.touches[0];
-            updateMouse(touch.clientX, touch.clientY);
+            const rect = this.canvas.getBoundingClientRect();
+            const tx = touch.clientX - rect.left;
+            const ty = touch.clientY - rect.top;
+
+            updateMouse(tx, ty);
+
+            // Check if grabbing player
+            if (this.player && this.settings.inputType === 'touch') {
+                const dist = Math.hypot(tx - (this.player.x + this.player.width / 2), ty - (this.player.y + this.player.height / 2));
+                // Generous grab radius (80px)
+                if (dist < 80) {
+                    this.isDragging = true;
+                    this.dragOffsetX = this.player.x - tx;
+                    this.dragOffsetY = this.player.y - ty;
+                }
+            }
         }, { passive: false });
+
+        // Touch End - Release
+        this.canvas.addEventListener('touchend', (e) => {
+            if (e.cancelable) e.preventDefault();
+            this.isDragging = false;
+        });
 
         this.canvas.addEventListener('touchmove', (e) => {
             if (e.cancelable) e.preventDefault();
+            // Only update mouse pos, logic happens in update()
             const touch = e.touches[0];
-            updateMouse(touch.clientX, touch.clientY);
+            const rect = this.canvas.getBoundingClientRect();
+            this.mouseX = touch.clientX - rect.left;
+            this.mouseY = touch.clientY - rect.top;
         }, { passive: false });
 
         // Prevent context menu on long press

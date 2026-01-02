@@ -18,7 +18,7 @@ I built this game with my second grader to show how to vibe code a web app from 
 - **Dynamic Level System**: Visual progression with changing backgrounds.
 - **High Score**: Your best score is saved locally. Can you beat it?
 - **Character Selection**: Choose from 4 unique shapes (Circle, Square, Triangle, Star).
-- **Customizable Controls**: Play with **Keyboard** (WASD/Arrows) or **Mouse**.
+- **Customizable Controls**: Play with **Keyboard** (WASD/Arrows), **Mouse**, or **Touch** (Grab & Drag).
 - **Pause System**: Need a break? Press **Escape** or **P** to pause.
 - **Settings**: Toggle audio or adjust difficulty (Easy, Medium, Hard).
 

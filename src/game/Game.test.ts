@@ -289,4 +289,46 @@ describe('Game Logic', () => {
         expect(preventDefault).toHaveBeenCalled();
         expect(handler({ preventDefault })).toBe(false);
     });
+
+    it('should ignore touches outside of grab radius', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'touch' });
+        game.player!.x = 100;
+        game.player!.y = 100;
+
+        // Verify initial state
+        expect(game.isDragging).toBe(false);
+
+        // Simulate touch start FAR away (200px)
+        const touches = [{ clientX: 300, clientY: 300 }];
+        const rect = { left: 0, top: 0, width: 800, height: 600 };
+
+        // Access the handler directly
+        const startHandler = (game.canvas.addEventListener as any).mock.calls.find((c: any) => c[0] === 'touchstart')[1];
+
+        // Mock getBoundingClientRect
+        game.canvas.getBoundingClientRect = () => rect as any;
+
+        startHandler({
+            touches,
+            preventDefault: vi.fn(),
+            cancelable: true
+        });
+
+        // Should still be false
+        expect(game.isDragging).toBe(false);
+    });
+
+    it('should stop dragging on touchend', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'touch' });
+        game.isDragging = true;
+
+        const endHandler = (game.canvas.addEventListener as any).mock.calls.find((c: any) => c[0] === 'touchend')[1];
+
+        endHandler({
+            preventDefault: vi.fn(),
+            cancelable: true
+        });
+
+        expect(game.isDragging).toBe(false);
+    });
 });
