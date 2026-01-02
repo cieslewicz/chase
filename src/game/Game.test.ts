@@ -187,4 +187,33 @@ describe('Game Logic', () => {
         game.updateLevel();
         expect(game.canvas.style.backgroundColor).toBe('#cc5de8');
     });
+
+    it('should toggle pause state', () => {
+        let pauseState = false;
+        game.onPause = (p) => pauseState = p;
+
+        game.togglePause();
+        expect(game.isPaused).toBe(true);
+        expect(pauseState).toBe(true);
+
+        game.togglePause();
+        expect(game.isPaused).toBe(false);
+        expect(pauseState).toBe(false);
+    });
+
+    it('should update settings mid-game', () => {
+        // Start with default (keyboard)
+        expect(game.settings.inputType).toBe('keyboard');
+
+        // Update to mouse
+        game.updateSettings({ inputType: 'mouse' });
+        expect(game.settings.inputType).toBe('mouse');
+
+        // Verify movement logic respects new setting
+        game.mouseX = 600;
+        game.mouseY = 300;
+        const initialX = game.player!.x;
+        game.update(0.1);
+        expect(game.player!.x).toBeGreaterThan(initialX);
+    });
 });

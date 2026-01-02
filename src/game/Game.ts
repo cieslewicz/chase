@@ -36,6 +36,7 @@ export class Game {
     onGameOver: (score: number) => void = () => { };
     onScoreUpdate: (score: number) => void = () => { };
     onTimeUpdate: (time: number) => void = () => { };
+    onPause: (isPaused: boolean) => void = () => { };
 
     audioCtx: AudioContext | null = null;
 
@@ -68,6 +69,7 @@ export class Game {
                 case 'ArrowDown': case 'KeyS': this.keys.down = true; break;
                 case 'ArrowLeft': case 'KeyA': this.keys.left = true; break;
                 case 'ArrowRight': case 'KeyD': this.keys.right = true; break;
+                case 'Escape': case 'KeyP': this.togglePause(); break;
             }
         });
 
@@ -122,6 +124,19 @@ export class Game {
 
         this.updateUI();
         this.loop(this.lastTime);
+    }
+
+    togglePause() {
+        if (!this.isRunning) return;
+        this.isPaused = !this.isPaused;
+        this.onPause(this.isPaused);
+    }
+
+    updateSettings(newSettings: Partial<typeof this.settings>) {
+        this.settings = { ...this.settings, ...newSettings };
+        if (this.settings.audio && !this.audioCtx) {
+            this.audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        }
     }
 
     generateObstacles(count: number) {

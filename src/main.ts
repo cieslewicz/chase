@@ -38,6 +38,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <button id="btn-home">Main Menu</button>
   </div>
   
+  <div id="pause-screen" class="screen hidden">
+    <h1>Paused</h1>
+    <button id="btn-resume">Continue</button>
+    <button id="btn-pause-settings">Settings</button>
+    <button id="btn-quit">Quit</button>
+  </div>
+
   <div id="settings-screen" class="screen hidden">
     <h1>Settings</h1>
     <div class="setting-row">

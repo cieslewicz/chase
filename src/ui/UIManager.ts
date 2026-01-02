@@ -6,6 +6,7 @@ export class UIManager {
     startScreen: HTMLElement;
     gameOverScreen: HTMLElement;
     settingsScreen: HTMLElement;
+    pauseScreen: HTMLElement;
 
     scoreEl: HTMLElement;
     timeEl: HTMLElement;
@@ -21,6 +22,7 @@ export class UIManager {
         this.startScreen = document.getElementById('start-screen')!;
         this.gameOverScreen = document.getElementById('game-over-screen')!;
         this.settingsScreen = document.getElementById('settings-screen')!;
+        this.pauseScreen = document.getElementById('pause-screen')!;
 
         // HUD
         this.scoreEl = document.getElementById('score')!;
@@ -34,6 +36,7 @@ export class UIManager {
         this.game.onScoreUpdate = (s) => this.scoreEl.innerText = `Score: ${s}`;
         this.game.onTimeUpdate = (t) => this.timeEl.innerText = `Time: ${t}`;
         this.game.onGameOver = (s) => this.showGameOver(s);
+        this.game.onPause = (p) => this.togglePauseScreen(p);
     }
 
     init() {
@@ -49,29 +52,66 @@ export class UIManager {
 
         // Buttons
         document.getElementById('btn-start')?.addEventListener('click', () => this.startGame());
-        document.getElementById('btn-settings')?.addEventListener('click', () => this.showSettings());
+        document.getElementById('btn-settings')?.addEventListener('click', () => this.showSettings(false));
         document.getElementById('btn-restart')?.addEventListener('click', () => this.restartGame());
         document.getElementById('btn-home')?.addEventListener('click', () => this.showStartScreen());
         document.getElementById('btn-settings-back')?.addEventListener('click', () => this.hideSettings());
+
+        // Pause Buttons
+        document.getElementById('btn-resume')?.addEventListener('click', () => this.game.togglePause()); // Resume
+        document.getElementById('btn-pause-settings')?.addEventListener('click', () => this.showSettings(true));
+        document.getElementById('btn-quit')?.addEventListener('click', () => this.quitGame());
+    }
+
+    getSettings() {
+        const audioEnabled = (document.getElementById('audio-toggle') as HTMLInputElement).checked;
+        const difficulty = parseInt((document.getElementById('difficulty-select') as HTMLInputElement).value);
+        const inputType = (document.getElementById('input-select') as HTMLInputElement).value;
+        return { audio: audioEnabled, difficulty, inputType };
     }
 
     startGame() {
         this.startScreen.classList.add('hidden');
         this.gameOverScreen.classList.add('hidden');
 
-        const audioEnabled = (document.getElementById('audio-toggle') as HTMLInputElement).checked;
-        const difficulty = parseInt((document.getElementById('difficulty-select') as HTMLInputElement).value);
-        const inputType = (document.getElementById('input-select') as HTMLInputElement).value;
-
-        this.game.start(this.selectedChar, { audio: audioEnabled, difficulty, inputType });
+        this.game.start(this.selectedChar, this.getSettings());
     }
 
-    showSettings() {
+    showSettings(isInGame: boolean) {
         this.settingsScreen.classList.remove('hidden');
+        // Disable difficulty if in game
+        const diffSelect = document.getElementById('difficulty-select') as HTMLSelectElement;
+        diffSelect.disabled = isInGame;
+        if (isInGame) {
+            this.pauseScreen.classList.add('hidden'); // Hide pause behind settings
+        }
     }
 
     hideSettings() {
         this.settingsScreen.classList.add('hidden');
+
+        // Apply settings immediately
+        this.game.updateSettings(this.getSettings());
+
+        if (this.game.isPaused && this.game.isRunning) {
+            this.pauseScreen.classList.remove('hidden'); // Show pause again
+        }
+    }
+
+    togglePauseScreen(isPaused: boolean) {
+        if (isPaused) {
+            this.pauseScreen.classList.remove('hidden');
+        } else {
+            this.pauseScreen.classList.add('hidden');
+            this.settingsScreen.classList.add('hidden'); // Ensure settings also closed
+        }
+    }
+
+    quitGame() {
+        this.game.isRunning = false; // Stop game loop logic
+        this.game.isPaused = false;
+        this.pauseScreen.classList.add('hidden');
+        this.showStartScreen();
     }
 
     showGameOver(score: number) {

@@ -18,6 +18,13 @@ There is no penalty for colliding with obstacles.
 
 The game will have a high score. The player will be able to save their high score locally.
 
+The game will have a Pause Feature:
+- Pressing **Escape** (or 'P') pauses the game.
+- A pause screen will appear with options to:
+    - **Continue**: Resume the game.
+    - **Settings**: Adjust audio or controls. (Difficulty cannot be changed while paused).
+    - **Quit**: Return to the main menu.
+
 The game will have a start screen. The player will be able to choose their character from 4 shapes (Circle, Square, Triangle, Star).
 
 The game will have a game over screen. The player will be able to see their score and high score. The player will be able to restart the game or return to the start screen.
