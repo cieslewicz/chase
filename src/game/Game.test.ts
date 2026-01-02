@@ -58,7 +58,7 @@ describe('Game Logic', () => {
         } as any;
 
         game = new Game(canvas);
-        game.start('circle', { audio: false, difficulty: 5 });
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
     });
 
     it('should initialize with correct score and time', () => {
@@ -105,5 +105,25 @@ describe('Game Logic', () => {
         expect(game.time).toBe(0);
         expect(game.isRunning).toBe(false);
         expect(gameOverCalled).toBe(true);
+    });
+    it('should move player towards mouse position when inputType is mouse', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'mouse' });
+
+        // Mock mouse position
+        game.mouseX = 400;
+        game.mouseY = 300;
+
+        // Assert initial position (center)
+        // Canvas center is 400, 300
+        // Player center starts at 400, 300
+        // Set mouse to somewhere else to test movement
+        game.mouseX = 500;
+        game.mouseY = 300;
+
+        const initialX = game.player!.x;
+        game.update(0.1);
+
+        expect(game.player!.x).toBeGreaterThan(initialX);
+        expect(game.player!.vx).toBeGreaterThan(0);
     });
 });

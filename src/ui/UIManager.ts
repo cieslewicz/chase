@@ -61,8 +61,9 @@ export class UIManager {
 
         const audioEnabled = (document.getElementById('audio-toggle') as HTMLInputElement).checked;
         const difficulty = parseInt((document.getElementById('difficulty-select') as HTMLInputElement).value);
+        const inputType = (document.getElementById('input-select') as HTMLInputElement).value;
 
-        this.game.start(this.selectedChar, { audio: audioEnabled, difficulty });
+        this.game.start(this.selectedChar, { audio: audioEnabled, difficulty, inputType });
     }
 
     showSettings() {

@@ -17,6 +17,9 @@ export class Game {
     isPaused: boolean = false;
     lastTime: number = 0;
 
+    mouseX: number = 0;
+    mouseY: number = 0;
+
     keys = {
         up: false,
         down: false,
@@ -26,7 +29,8 @@ export class Game {
 
     settings = {
         audio: true,
-        difficulty: 10
+        difficulty: 10,
+        inputType: 'keyboard'
     };
 
     onGameOver: (score: number) => void = () => { };
@@ -77,15 +81,16 @@ export class Game {
         });
 
         // Mouse movement
-        this.canvas.addEventListener('mousemove', () => {
+        this.canvas.addEventListener('mousemove', (e) => {
             if (!this.player || !this.isRunning || this.isPaused) return;
-            // Simple follow mouse logic could be implemented here, 
-            // but arrow keys are more precise. Implementation skipped to avoid conflict.
-            // Or we can set target position.
+
+            const rect = this.canvas.getBoundingClientRect();
+            this.mouseX = e.clientX - rect.left;
+            this.mouseY = e.clientY - rect.top;
         });
     }
 
-    start(charType: string, settings: { audio: boolean; difficulty: number }) {
+    start(charType: string, settings: { audio: boolean; difficulty: number; inputType: string }) {
         this.settings = settings;
         if (this.settings.audio && !this.audioCtx) {
             this.audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -215,7 +220,11 @@ export class Game {
         const oldPx = this.player.x;
         const oldPy = this.player.y;
 
-        this.player.move(this.keys, dt);
+        if (this.settings.inputType === 'mouse') {
+            this.player.moveTowards(this.mouseX, this.mouseY, dt);
+        } else {
+            this.player.move(this.keys, dt);
+        }
         this.player.handleScreenBounds(this.canvas.width, this.canvas.height);
 
         // Player vs Obstacles (Slide)

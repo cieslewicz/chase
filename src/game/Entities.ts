@@ -84,6 +84,29 @@ export class Player extends Entity {
         this.y += this.vy * dt;
     }
 
+    moveTowards(targetX: number, targetY: number, dt: number) {
+        // Calculate center of player
+        const cx = this.x + this.width / 2;
+        const cy = this.y + this.height / 2;
+
+        const dx = targetX - cx;
+        const dy = targetY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Stop jittering when close
+        if (dist < 5) {
+            this.vx = 0;
+            this.vy = 0;
+            return;
+        }
+
+        this.vx = (dx / dist) * this.speed;
+        this.vy = (dy / dist) * this.speed;
+
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+    }
+
     handleScreenBounds(width: number, height: number) {
         this.x = Math.max(0, Math.min(width - this.width, this.x));
         this.y = Math.max(0, Math.min(height - this.height, this.y));

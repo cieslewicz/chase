@@ -52,6 +52,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <option value="20">Hard (20)</option>
       </select>
     </div>
+    <div class="setting-row">
+      <label for="input-select">Controls</label>
+      <select id="input-select">
+        <option value="keyboard" selected>Keyboard (Arrows/WASD)</option>
+        <option value="mouse">Mouse (Follow Cursor)</option>
+      </select>
+    </div>
     <button id="btn-settings-back">Back</button>
   </div>
 `
