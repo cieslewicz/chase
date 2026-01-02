@@ -63,6 +63,15 @@ export class UIManager {
         document.getElementById('btn-quit')?.addEventListener('click', () => this.quitGame());
 
         this.checkMobile();
+        this.setupGlobalListeners();
+    }
+
+    setupGlobalListeners() {
+        // Global Prevention of Scrolling on Mobile
+        const preventDefault = (e: Event) => e.preventDefault();
+        // Only block touchmove to prevent scrolling, allow touchstart for buttons
+        document.body.addEventListener('touchmove', preventDefault, { passive: false });
+        document.body.addEventListener('contextmenu', preventDefault);
     }
 
     checkMobile() {
