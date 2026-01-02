@@ -4,7 +4,7 @@
 
 I built this game with my second grader to show how to vibe code a web app from a prototype they built in scratch.
 
-![Game Screenshot](https://via.placeholder.com/800x400?text=Chase+Configuration+Screenshot+Placeholder)
+![Game Screenshot](public/assets/screenshot.png)
 
 ## 🎮 How to Play
 - **Goal**: Collect as many apples as you can before time runs out!
