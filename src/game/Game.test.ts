@@ -44,18 +44,24 @@ describe('Game Logic', () => {
 
     beforeEach(() => {
         const canvas = new MockCanvas() as unknown as HTMLCanvasElement;
+
         // Mock AudioContext
-        global.window = {
-            innerWidth: 800,
-            innerHeight: 600,
-            addEventListener: vi.fn(),
-            AudioContext: vi.fn().mockImplementation(() => ({
-                createOscillator: () => ({ connect: vi.fn(), start: vi.fn(), stop: vi.fn(), frequency: { value: 0 } }),
-                createGain: () => ({ connect: vi.fn(), gain: { exponentialRampToValueAtTime: vi.fn() } }),
-                destination: {}
-            })),
-            localStorage: { getItem: () => null, setItem: vi.fn() }
-        } as any;
+        vi.stubGlobal('AudioContext', vi.fn().mockImplementation(() => ({
+            createOscillator: () => ({ connect: vi.fn(), start: vi.fn(), stop: vi.fn(), frequency: { value: 0 } }),
+            createGain: () => ({ connect: vi.fn(), gain: { exponentialRampToValueAtTime: vi.fn() } }),
+            destination: {}
+        })));
+
+        // Mock localStorage
+        const localStorageMock = {
+            getItem: vi.fn(() => null),
+            setItem: vi.fn(),
+            clear: vi.fn(),
+            removeItem: vi.fn(),
+            length: 0,
+            key: vi.fn(),
+        };
+        vi.stubGlobal('localStorage', localStorageMock);
 
         game = new Game(canvas);
         game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
@@ -117,7 +123,9 @@ describe('Game Logic', () => {
         // Canvas center is 400, 300
         // Player center starts at 400, 300
         // Set mouse to somewhere else to test movement
-        game.mouseX = 500;
+        // JSDOM default width is 1024, so player starts at 512.
+        // We want to move right, so target > 512.
+        game.mouseX = 600;
         game.mouseY = 300;
 
         const initialX = game.player!.x;
@@ -125,5 +133,38 @@ describe('Game Logic', () => {
 
         expect(game.player!.x).toBeGreaterThan(initialX);
         expect(game.player!.vx).toBeGreaterThan(0);
+    });
+
+    it('should scale Bad Guy speed with score', () => {
+        const initialSpeed = game.badGuy!.speed;
+        game.score = 10;
+        game.badGuy!.update(game.player!, 0.1, game.score);
+        expect(game.badGuy!.speed).toBeGreaterThan(initialSpeed);
+    });
+
+    it('should trigger game over on collision with Bad Guy', () => {
+        let gameOverCalled = false;
+        game.onGameOver = () => { gameOverCalled = true; };
+
+        // Move player to bad guy
+        game.player!.x = game.badGuy!.x;
+        game.player!.y = game.badGuy!.y;
+
+        game.update(0.1);
+
+        expect(game.isRunning).toBe(false);
+        expect(gameOverCalled).toBe(true);
+    });
+
+    it('should save high score', () => {
+        game.score = 100;
+        game.highScore = 50;
+        game.gameOver();
+        expect(localStorage.setItem).toHaveBeenCalledWith('highScore', '100');
+    });
+
+    it('should generate obstacles based on difficulty', () => {
+        game.start('circle', { audio: false, difficulty: 20, inputType: 'keyboard' });
+        expect(game.obstacles.length).toBe(20);
     });
 });

@@ -10,20 +10,17 @@ The game will have a timer of 60 seconds. The player will lose if they run out o
 
 The game will have a score. The player will gain points for collecting apples.
 
-Apples will be worth 1 point. New apples will spawn in random locaitons and random intervals, but roughly every 2 seconds. Each apple will add 1 second to the time.
+Apples will be worth 1 point. New apples will spawn in random locations every 2 seconds. Each apple will add 1 second to the time.
 
 There is no penalty for colliding with obstacles.
 
-The game will have a high score. The player will be able to save their high score.
+The game will have a high score. The player will be able to save their high score locally.
 
-The game will have a start screen. The player will be able to choose their character.
-
-The game will have an end screen. The player will be able to see their score and high score. The player will be able to restart the game or return to the start screen.
-
-The game will have a main screen. The player will be able to see their score and high score. The player will be able to restart the game or return to the start screen.
-
-The game will have a pause screen. The player will be able to pause the game and return to the main screen.
+The game will have a start screen. The player will be able to choose their character from 4 shapes (Circle, Square, Triangle, Star).
 
 The game will have a game over screen. The player will be able to see their score and high score. The player will be able to restart the game or return to the start screen.
 
-The game will have a settings screen. The player will be able to adjust the game settings.
+The game will have a settings screen. The player can adjust:
+- Audio: Toggle sound effects on/off.
+- Difficulty: Choose the number of obstacles (Easy: 5, Medium: 10, Hard: 20).
+- Controls: Choose between Keyboard (Arrow keys/WASD) or Mouse (Follow cursor).
