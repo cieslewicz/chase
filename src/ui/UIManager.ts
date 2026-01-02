@@ -74,17 +74,21 @@ export class UIManager {
             // Update Text
             if (instructions) {
                 instructions.innerHTML = `
-                    Touch and drag to move your character to eat as many apples as you can and avoid the bad guy.
+                    Drag your character with your finger to eat apples and avoid the bad guy.
                     <br>
                     You can change controls in the Settings menu.
                 `;
             }
-            // Update Default Input
+            // Add Touch Option and Select it
             if (inputSelect) {
-                inputSelect.value = 'mouse';
-                // Find and rename option
-                const mouseOpt = inputSelect.querySelector('option[value="mouse"]');
-                if (mouseOpt) mouseOpt.textContent = 'Touch / Mouse (Follow)';
+                // Check if already exists
+                if (!inputSelect.querySelector('option[value="touch"]')) {
+                    const opt = document.createElement('option');
+                    opt.value = 'touch';
+                    opt.textContent = 'Touch (Drag)';
+                    inputSelect.appendChild(opt);
+                }
+                inputSelect.value = 'touch';
             }
         }
     }

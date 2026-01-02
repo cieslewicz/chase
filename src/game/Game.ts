@@ -237,6 +237,12 @@ export class Game {
 
         if (this.settings.inputType === 'mouse') {
             this.player.moveTowards(this.mouseX, this.mouseY, dt);
+        } else if (this.settings.inputType === 'touch') {
+            // Direct drag (with center offset)
+            const centerOffset = this.player.width / 2;
+            this.player.x = this.mouseX - centerOffset;
+            this.player.y = this.mouseY - centerOffset;
+            // No velocity needed, but could set it for animation if we wanted
         } else {
             this.player.move(this.keys, dt);
         }
@@ -246,11 +252,9 @@ export class Game {
         for (const obs of this.obstacles) {
             if (this.player.checkCollision(obs)) {
                 // Revert to old position (simple block)
-                // Or better: slide. For simplicity: block.
-                // Check X axis only
+                // For direct drag, this feels "sticky" but safe
                 this.player.x = oldPx;
-                // If still colliding, revert Y? 
-                if (this.player.checkCollision(obs)) this.player.y = oldPy;
+                this.player.y = oldPy; // Revert both immediately for strict block
             }
         }
 
