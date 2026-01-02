@@ -12,6 +12,8 @@ The game will have a score. The player will gain points for collecting apples.
 
 Apples will be worth 1 point. New apples will spawn in random locations every 2 seconds. Each apple will add 1 second to the time.
 
+The game will have Levels based on the score. Every 10 points, the background color will change to indicate a new level.
+
 There is no penalty for colliding with obstacles.
 
 The game will have a high score. The player will be able to save their high score locally.

@@ -17,6 +17,7 @@ class MockCanvas {
         };
     }
     addEventListener = vi.fn();
+    style = { backgroundColor: '' };
 }
 
 describe('Entity Collision', () => {
@@ -166,5 +167,24 @@ describe('Game Logic', () => {
     it('should generate obstacles based on difficulty', () => {
         game.start('circle', { audio: false, difficulty: 20, inputType: 'keyboard' });
         expect(game.obstacles.length).toBe(20);
+    });
+
+    it('should change background color on level up', () => {
+        // Mock style
+        (game.canvas as any).style = { backgroundColor: '' };
+
+        // Score 0 -> Level 1
+        game.updateLevel();
+        expect(game.canvas.style.backgroundColor).toBe('#51cf66');
+
+        // Score 10 -> Level 2
+        game.score = 10;
+        game.updateLevel();
+        expect(game.canvas.style.backgroundColor).toBe('#4dabf7');
+
+        // Score 25 -> Level 3
+        game.score = 25;
+        game.updateLevel();
+        expect(game.canvas.style.backgroundColor).toBe('#cc5de8');
     });
 });

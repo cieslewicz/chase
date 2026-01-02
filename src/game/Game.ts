@@ -273,6 +273,22 @@ export class Game {
         this.time += 1;
         this.onScoreUpdate(this.score);
         this.playSound(440, 0.1); // Beep
+        this.updateLevel();
+    }
+
+    // Level background colors
+    levelColors = [
+        '#51cf66', // Level 1 (0-9): Green
+        '#4dabf7', // Level 2 (10-19): Blue
+        '#cc5de8', // Level 3 (20-29): Grape
+        '#ff922b', // Level 4 (30-39): Orange
+        '#fa5252', // Level 5 (40-49): Red
+        '#fcc419', // Level 6 (50-59): Yellow
+    ];
+
+    updateLevel() {
+        const levelIndex = Math.floor(this.score / 10) % this.levelColors.length;
+        this.canvas.style.backgroundColor = this.levelColors[levelIndex];
     }
 
     playSound(freq: number, duration: number) {
