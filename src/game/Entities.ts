@@ -145,12 +145,12 @@ export class BadGuy extends Entity {
 
 export class Apple extends Entity {
     constructor(x: number, y: number) {
-        super(x, y, 40, '/assets/apple.svg');
+        super(x, y, 40, 'assets/apple.svg'); // Relative path
     }
 }
 
 export class Obstacle extends Entity {
     constructor(x: number, y: number) {
-        super(x, y, 60, '/assets/obstacle_rock.svg');
+        super(x, y, 60, 'assets/obstacle_rock.svg'); // Relative path
     }
 }

@@ -14,16 +14,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <h1>Chase</h1>
     <div class="character-select">
       <div class="char-option selected" data-char="circle">
-        <img src="/assets/player_circle.svg" alt="Circle" />
+        <img src="assets/player_circle.svg" alt="Circle" />
       </div>
       <div class="char-option" data-char="square">
-        <img src="/assets/player_square.svg" alt="Square" />
+        <img src="assets/player_square.svg" alt="Square" />
       </div>
       <div class="char-option" data-char="triangle">
-        <img src="/assets/player_triangle.svg" alt="Triangle" />
+        <img src="assets/player_triangle.svg" alt="Triangle" />
       </div>
       <div class="char-option" data-char="star">
-        <img src="/assets/player_star.svg" alt="Star" />
+        <img src="assets/player_star.svg" alt="Star" />
       </div>
     </div>
     <button id="btn-start">Start Game</button>
