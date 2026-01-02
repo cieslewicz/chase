@@ -20,6 +20,10 @@ export class Game {
     mouseX: number = 0;
     mouseY: number = 0;
 
+    isDragging: boolean = false;
+    dragOffsetX: number = 0;
+    dragOffsetY: number = 0;
+
     keys = {
         up: false,
         down: false,
@@ -264,11 +268,10 @@ export class Game {
         if (this.settings.inputType === 'mouse') {
             this.player.moveTowards(this.mouseX, this.mouseY, dt);
         } else if (this.settings.inputType === 'touch') {
-            // Direct drag (with center offset)
-            const centerOffset = this.player.width / 2;
-            this.player.x = this.mouseX - centerOffset;
-            this.player.y = this.mouseY - centerOffset;
-            // No velocity needed, but could set it for animation if we wanted
+            if (this.isDragging) {
+                this.player.x = this.mouseX + this.dragOffsetX;
+                this.player.y = this.mouseY + this.dragOffsetY;
+            }
         } else {
             this.player.move(this.keys, dt);
         }

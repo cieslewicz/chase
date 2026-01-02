@@ -81,4 +81,10 @@ const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
 const game = new Game(canvas);
 const ui = new UIManager(game);
 
+// Global Prevention of Scrolling on Mobile
+const preventDefault = (e: Event) => e.preventDefault();
+document.body.addEventListener('touchstart', preventDefault, { passive: false });
+document.body.addEventListener('touchmove', preventDefault, { passive: false });
+document.body.addEventListener('contextmenu', preventDefault);
+
 ui.init();
