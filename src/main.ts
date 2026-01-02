@@ -12,6 +12,12 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   
   <div id="start-screen" class="screen">
     <h1>Chase</h1>
+    <h2 class="subtitle">Choose a character</h2>
+    <p class="instructions">
+      Control your character with the arrow keys to eat as many apples as you can and avoid the bad guy.
+      <br>
+      You can switch to mouse control in the Settings menu.
+    </p>
     <div class="character-select">
       <div class="char-option selected" data-char="circle">
         <img src="assets/player_circle.svg" alt="Circle" />
