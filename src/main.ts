@@ -1,24 +1,64 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { Game } from './game/Game'
+import { UIManager } from './ui/UIManager'
 
+// HTML Structure
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
+  <div class="hud">
+    <div id="score">Score: 0</div>
+    <div id="time">Time: 60</div>
+  </div>
+  <canvas id="gameCanvas"></canvas>
+  
+  <div id="start-screen" class="screen">
+    <h1>Andrew's Game</h1>
+    <div class="character-select">
+      <div class="char-option selected" data-char="circle">
+        <img src="/assets/player_circle.png" alt="Circle" />
+      </div>
+      <div class="char-option" data-char="square">
+        <img src="/assets/player_square.png" alt="Square" />
+      </div>
+      <div class="char-option" data-char="triangle">
+        <img src="/assets/player_triangle.png" alt="Triangle" />
+      </div>
+      <div class="char-option" data-char="star">
+        <img src="/assets/player_star.png" alt="Star" />
+      </div>
     </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
+    <button id="btn-start">Start Game</button>
+    <button id="btn-settings">Settings</button>
+  </div>
+
+  <div id="game-over-screen" class="screen hidden">
+    <h1>Game Over</h1>
+    <h2 id="final-score">Score: 0</h2>
+    <h3 id="high-score-display">High Score: 0</h3>
+    <button id="btn-restart">Play Again</button>
+    <button id="btn-home">Main Menu</button>
+  </div>
+  
+  <div id="settings-screen" class="screen hidden">
+    <h1>Settings</h1>
+    <div class="setting-row">
+      <label for="audio-toggle">Sound Effects</label>
+      <input type="checkbox" id="audio-toggle" checked />
+    </div>
+    <div class="setting-row">
+      <label for="difficulty-select">Difficulty (Obstacles)</label>
+      <select id="difficulty-select">
+        <option value="5">Easy (5)</option>
+        <option value="10" selected>Medium (10)</option>
+        <option value="20">Hard (20)</option>
+      </select>
+    </div>
+    <button id="btn-settings-back">Back</button>
   </div>
 `
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+// Initialize Game
+const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
+const game = new Game(canvas);
+const ui = new UIManager(game);
+
+ui.init();

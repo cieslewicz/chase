@@ -77,7 +77,7 @@ export class Game {
         });
 
         // Mouse movement
-        this.canvas.addEventListener('mousemove', (e) => {
+        this.canvas.addEventListener('mousemove', () => {
             if (!this.player || !this.isRunning || this.isPaused) return;
             // Simple follow mouse logic could be implemented here, 
             // but arrow keys are more precise. Implementation skipped to avoid conflict.
