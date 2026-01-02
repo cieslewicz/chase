@@ -122,6 +122,7 @@ export class Game {
         this.lastTime = performance.now();
         this.appleTimer = 0;
 
+        this.updateLevel(); // Reset background color
         this.updateUI();
         this.loop(this.lastTime);
     }

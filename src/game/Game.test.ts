@@ -231,4 +231,19 @@ describe('Game Logic', () => {
         expect(game.player!.x).toBe(500 - offset);
         expect(game.player!.y).toBe(400 - offset);
     });
+
+    it('should reset background color on new game start', () => {
+        // Set to high level
+        game.score = 20;
+        game.updateLevel();
+        const level3Color = game.canvas.style.backgroundColor;
+
+        // Restart game
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+
+        // Should be level 1 color
+        expect(game.score).toBe(0);
+        expect(game.canvas.style.backgroundColor).not.toBe(level3Color);
+        expect(game.canvas.style.backgroundColor).toBe(game.levelColors[0]);
+    });
 });
