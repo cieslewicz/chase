@@ -61,6 +61,32 @@ export class UIManager {
         document.getElementById('btn-resume')?.addEventListener('click', () => this.game.togglePause()); // Resume
         document.getElementById('btn-pause-settings')?.addEventListener('click', () => this.showSettings(true));
         document.getElementById('btn-quit')?.addEventListener('click', () => this.quitGame());
+
+        this.checkMobile();
+    }
+
+    checkMobile() {
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const instructions = document.querySelector('.instructions');
+        const inputSelect = document.getElementById('input-select') as HTMLSelectElement;
+
+        if (isTouch) {
+            // Update Text
+            if (instructions) {
+                instructions.innerHTML = `
+                    Touch and drag to move your character to eat as many apples as you can and avoid the bad guy.
+                    <br>
+                    You can change controls in the Settings menu.
+                `;
+            }
+            // Update Default Input
+            if (inputSelect) {
+                inputSelect.value = 'mouse';
+                // Find and rename option
+                const mouseOpt = inputSelect.querySelector('option[value="mouse"]');
+                if (mouseOpt) mouseOpt.textContent = 'Touch / Mouse (Follow)';
+            }
+        }
     }
 
     getSettings() {
