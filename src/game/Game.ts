@@ -152,20 +152,14 @@ export class Game {
         }
 
         this.player = new Player(this.canvas.width / 2, this.canvas.height / 2, charType);
-        this.badGuy = new BadGuy(100, 100); // Start far away or specific corner?
-
-        // Spawn BadGuy away from player
-        if (Math.random() > 0.5) {
-            this.badGuy.x = this.canvas.width - 100;
-            this.badGuy.y = Math.random() * this.canvas.height;
-        } else {
-            this.badGuy.x = 100;
-            this.badGuy.y = Math.random() * this.canvas.height;
-        }
 
         this.apples = [];
         this.obstacles = [];
         this.generateObstacles(this.settings.difficulty);
+
+        // Spawn Bad Guy safely AFTER obstacles
+        this.badGuy = new BadGuy(0, 0);
+        this.spawnBadGuySafe();
 
         this.score = 0;
         this.time = 60;
@@ -178,6 +172,54 @@ export class Game {
         this.updateLevel(); // Reset background color
         this.updateUI();
         this.loop(this.lastTime);
+    }
+
+    isValidSpawn(x: number, y: number, radius: number): boolean {
+        // Check Canvas Bounds (with margin)
+        if (x < radius || x > this.canvas.width - radius || y < radius || y > this.canvas.height - radius) return false;
+
+        // Check Obstacles
+        // Create a temp Circle object for collision check
+        // We reuse the 'checkCircleCollision' or logic from entities
+        // Simplified: check distance to nearest point of rectangle?
+        // Reuse Entity method logic basically.
+        // Let's just create a temp object if we want or implement logic here.
+        // Since Obstacles have 'checkCollision' against a generic entity with x,y,width,height:
+        const tempEntity = { x: x - radius, y: y - radius, width: radius * 2, height: radius * 2, radius: radius };
+
+        for (const obs of this.obstacles) {
+            // Player/BadGuy/Apple are conceptually circles or have 'radius' roughly
+            // Obstacle checkCollision expects {x, y, width, height}
+            // Apples use checkCollision (AABB mostly? No, they are circular logic often manually done)
+            // Obstacle.checkCollision takes 'entity'
+            if (obs.checkCollision(tempEntity as any)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    spawnBadGuySafe() {
+        if (!this.badGuy) return;
+        let valid = false;
+        let attempts = 0;
+        while (!valid && attempts < 50) {
+            // Try sides
+            if (Math.random() > 0.5) {
+                this.badGuy.x = this.canvas.width - 100;
+                this.badGuy.y = Math.random() * this.canvas.height;
+            } else {
+                this.badGuy.x = 100;
+                this.badGuy.y = Math.random() * this.canvas.height;
+            }
+
+            // Should also be far from player
+            const dist = Math.hypot(this.badGuy.x - this.player!.x, this.badGuy.y - this.player!.y);
+            if (dist > 300 && this.isValidSpawn(this.badGuy.x, this.badGuy.y, 40)) { // 40 approx badguy size
+                valid = true;
+            }
+            attempts++;
+        }
     }
 
     togglePause() {
@@ -232,19 +274,9 @@ export class Game {
         while (!valid && attempts < 20) {
             const x = Math.random() * (this.canvas.width - 40);
             const y = Math.random() * (this.canvas.height - 40);
-            const apple = new Apple(x, y);
-
-            // Avoid obstacles
-            let overlap = false;
-            for (const obs of this.obstacles) {
-                if (obs.checkCollision(apple)) {
-                    overlap = true;
-                    break;
-                }
-            }
-
-            if (!overlap) {
-                this.apples.push(apple);
+            // 20 is approx radius
+            if (this.isValidSpawn(x, y, 20)) {
+                this.apples.push(new Apple(x, y));
                 valid = true;
             }
             attempts++;

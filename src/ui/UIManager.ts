@@ -99,6 +99,12 @@ export class UIManager {
                 }
                 inputSelect.value = 'touch';
             }
+
+            // Default to Easy Difficulty on Mobile
+            const diffSelect = document.getElementById('difficulty-select') as HTMLSelectElement;
+            if (diffSelect) {
+                diffSelect.value = "5";
+            }
         }
     }
 

@@ -56,4 +56,26 @@ describe('UIManager', () => {
         const touchStartCall = calls.find((c: any) => c[0] === 'touchstart');
         expect(touchStartCall).toBeUndefined();
     });
+
+    it('should default to Easy difficulty on mobile', () => {
+        // Mock Touch Environment
+        Object.defineProperty(window, 'ontouchstart', {
+            writable: true,
+            value: true
+        });
+
+        // Mock Select Element
+        const diffSelect = document.createElement('select');
+        diffSelect.id = 'difficulty-select';
+        diffSelect.innerHTML = `
+            <option value="5">Easy</option>
+            <option value="10" selected>Medium</option>
+            <option value="20">Hard</option>
+        `;
+        document.body.appendChild(diffSelect);
+
+        ui.checkMobile();
+
+        expect(diffSelect.value).toBe("5"); // Should change to Easy
+    });
 });

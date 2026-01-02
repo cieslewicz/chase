@@ -331,4 +331,35 @@ describe('Game Logic', () => {
 
         expect(game.isDragging).toBe(false);
     });
+
+    it('should not spawn apples on obstacles', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+
+        // Force an obstacle at a known location
+        const obs = new Obstacle(100, 100);
+        // Obstacle is 60x60 usually
+        game.obstacles = [obs];
+
+        // Mock Math.random to force apple spawn AT obstacle
+        // Apple checks random x/y. 
+        // Let's implement a deterministic check:
+        // We can just verify isValidSpawn returns false for that location
+        expect(game.isValidSpawn(110, 110, 20)).toBe(false); // Inside obstacle
+        expect(game.isValidSpawn(300, 300, 20)).toBe(true);  // Outside
+    });
+
+    it('should spawn Bad Guy in valid location', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+        expect(game.badGuy).toBeDefined();
+        // Check collision with obstacles
+        for (const obs of game.obstacles) {
+            const tempEntity = {
+                x: game.badGuy!.x - 20, // Approx radius/hitbox
+                y: game.badGuy!.y - 20,
+                width: 40,
+                height: 40
+            };
+            expect(obs.checkCollision(tempEntity as any)).toBe(false);
+        }
+    });
 });
