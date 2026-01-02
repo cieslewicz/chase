@@ -2,6 +2,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Game } from './Game';
+import { Obstacle } from './Entities';  // Import Obstacle
 import { Entity } from './Entities';
 
 // Mock Canvas
@@ -245,5 +246,28 @@ describe('Game Logic', () => {
         expect(game.score).toBe(0);
         expect(game.canvas.style.backgroundColor).not.toBe(level3Color);
         expect(game.canvas.style.backgroundColor).toBe(game.levelColors[0]);
+    });
+
+    it('should prevent dragging player into an obstacle', () => {
+        game.start('circle', { audio: false, difficulty: 0, inputType: 'touch' });
+
+        // Spawn an obstacle manually
+        const obs = new Obstacle(300, 300);
+        game.obstacles.push(obs);
+
+        // Position player next to it
+        game.player!.x = 250;
+        game.player!.y = 300;
+
+        // Try to drag INSIDE the obstacle
+        game.mouseX = 300;
+        game.mouseY = 300;
+
+        game.update(0.1);
+
+        // Player should NOT be at 300,300 (collision reverted position)
+        // With current logic, it reverts to oldPos (250, 300)
+        expect(game.player!.x).toBe(250);
+        expect(game.player!.y).toBe(300);
     });
 });

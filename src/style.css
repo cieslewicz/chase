@@ -34,6 +34,8 @@ body {
 }
 
 canvas {
+  touch-action: none;
+  /* Prevent scroll/zoom on mobile */
   background-color: #51cf66;
   /* Grass green */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
