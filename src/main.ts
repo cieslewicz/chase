@@ -82,8 +82,9 @@ const game = new Game(canvas);
 const ui = new UIManager(game);
 
 // Global Prevention of Scrolling on Mobile
+// Global Prevention of Scrolling on Mobile
 const preventDefault = (e: Event) => e.preventDefault();
-document.body.addEventListener('touchstart', preventDefault, { passive: false });
+// Only block touchmove to prevent scrolling, allow touchstart for buttons
 document.body.addEventListener('touchmove', preventDefault, { passive: false });
 document.body.addEventListener('contextmenu', preventDefault);
 
