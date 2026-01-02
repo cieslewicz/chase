@@ -74,8 +74,21 @@ describe('UIManager', () => {
         `;
         document.body.appendChild(diffSelect);
 
+        const inputSelect = document.createElement('select');
+        inputSelect.id = 'input-select';
+        inputSelect.innerHTML = `
+            <option value="keyboard">Keyboard</option>
+            <option value="mouse">Mouse</option>
+        `;
+        document.body.appendChild(inputSelect);
+
         ui.checkMobile();
 
         expect(diffSelect.value).toBe("5"); // Should change to Easy
+
+        // Check inputs restricted
+        const restrictedSelect = document.getElementById('input-select') as HTMLSelectElement;
+        expect(restrictedSelect.options.length).toBe(1);
+        expect(restrictedSelect.value).toBe('touch');
     });
 });

@@ -88,15 +88,15 @@ export class UIManager {
                     You can change controls in the Settings menu.
                 `;
             }
-            // Add Touch Option and Select it
+            // Restrict controls: Remove Keyboard/Mouse, force Touch
             if (inputSelect) {
-                // Check if already exists
-                if (!inputSelect.querySelector('option[value="touch"]')) {
-                    const opt = document.createElement('option');
-                    opt.value = 'touch';
-                    opt.textContent = 'Touch (Drag)';
-                    inputSelect.appendChild(opt);
-                }
+                inputSelect.innerHTML = ''; // Clear existing
+
+                const opt = document.createElement('option');
+                opt.value = 'touch';
+                opt.textContent = 'Touch (Grab & Drag)';
+                inputSelect.appendChild(opt);
+
                 inputSelect.value = 'touch';
             }
 
