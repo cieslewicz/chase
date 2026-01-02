@@ -84,8 +84,6 @@ export class UIManager {
             if (instructions) {
                 instructions.innerHTML = `
                     Drag your character with your finger to eat apples and avoid the bad guy.
-                    <br>
-                    You can change controls in the Settings menu.
                 `;
             }
             // Restrict controls: Remove Keyboard/Mouse, force Touch

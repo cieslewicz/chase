@@ -18,7 +18,9 @@ describe('UIManager', () => {
 
         // Mock UI elements that UIManager expects
         document.body.innerHTML = `
-            <div id="start-screen"></div>
+            <div id="start-screen">
+                <p class="instructions"></p>
+            </div>
             <div id="game-over-screen"></div>
             <div id="settings-screen"></div>
             <div id="pause-screen"></div>
@@ -90,5 +92,10 @@ describe('UIManager', () => {
         const restrictedSelect = document.getElementById('input-select') as HTMLSelectElement;
         expect(restrictedSelect.options.length).toBe(1);
         expect(restrictedSelect.value).toBe('touch');
+
+        // Check instructions
+        const instructionsEl = document.querySelector('.instructions') as HTMLElement;
+        expect(instructionsEl.innerHTML).toContain('Drag your character');
+        expect(instructionsEl.innerHTML).not.toContain('change controls');
     });
 });
