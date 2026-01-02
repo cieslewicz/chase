@@ -21,7 +21,11 @@ body {
   min-height: 100vh;
   overflow: hidden;
   justify-content: center;
+  justify-content: center;
   user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  /* Globally prevent scrolling/zooming for game experience */
 }
 
 #app {
