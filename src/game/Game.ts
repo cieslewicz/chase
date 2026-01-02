@@ -83,13 +83,38 @@ export class Game {
         });
 
         // Mouse movement
-        this.canvas.addEventListener('mousemove', (e) => {
+        // Mouse movement
+        const updateMouse = (x: number, y: number) => {
             if (!this.player || !this.isRunning || this.isPaused) return;
-
             const rect = this.canvas.getBoundingClientRect();
-            this.mouseX = e.clientX - rect.left;
-            this.mouseY = e.clientY - rect.top;
+            this.mouseX = x - rect.left;
+            this.mouseY = y - rect.top;
+        };
+
+        this.canvas.addEventListener('mousemove', (e) => updateMouse(e.clientX, e.clientY));
+
+        // Touch movement
+        this.canvas.addEventListener('touchstart', (e) => {
+            // Prevent default to stop scrolling/zooming while playing
+            if (e.cancelable) e.preventDefault();
+            const touch = e.touches[0];
+            updateMouse(touch.clientX, touch.clientY);
+        }, { passive: false });
+
+        this.canvas.addEventListener('touchmove', (e) => {
+            if (e.cancelable) e.preventDefault();
+            const touch = e.touches[0];
+            updateMouse(touch.clientX, touch.clientY);
+        }, { passive: false });
+
+        // Prevent context menu on long press
+        this.canvas.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
         });
+
+        // Force style just in case CSS fails somehow
+        this.canvas.style.touchAction = 'none';
     }
 
     start(charType: string, settings: { audio: boolean; difficulty: number; inputType: string }) {

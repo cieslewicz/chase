@@ -270,4 +270,18 @@ describe('Game Logic', () => {
         expect(game.player!.x).toBe(250);
         expect(game.player!.y).toBe(300);
     });
+
+    it('should prevent context menu on canvas', () => {
+        const calls = (game.canvas.addEventListener as any).mock.calls;
+        const contextMenuCall = calls.find((c: any) => c[0] === 'contextmenu');
+
+        expect(contextMenuCall).toBeDefined();
+
+        // callback
+        const handler = contextMenuCall[1];
+        const preventDefault = vi.fn();
+        handler({ preventDefault });
+        expect(preventDefault).toHaveBeenCalled();
+        expect(handler({ preventDefault })).toBe(false);
+    });
 });
