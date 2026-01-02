@@ -216,4 +216,19 @@ describe('Game Logic', () => {
         game.update(0.1);
         expect(game.player!.x).toBeGreaterThan(initialX);
     });
+
+    it('should move player directly to mouse position when inputType is touch', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'touch' });
+
+        // Mock Input
+        game.mouseX = 500;
+        game.mouseY = 400;
+
+        game.update(0.1);
+
+        // Should be at mouse position (minus radius/offset)
+        const offset = game.player!.width / 2;
+        expect(game.player!.x).toBe(500 - offset);
+        expect(game.player!.y).toBe(400 - offset);
+    });
 });

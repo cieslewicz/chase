@@ -32,4 +32,5 @@ The game will have a game over screen. The player will be able to see their scor
 The game will have a settings screen. The player can adjust:
 - Audio: Toggle sound effects on/off.
 - Difficulty: Choose the number of obstacles (Easy: 5, Medium: 10, Hard: 20).
-- Controls: Choose between Keyboard (Arrow keys/WASD) or Mouse (Follow cursor).
+- Controls: Choose between Keyboard (Arrow keys/WASD), Mouse (Follow cursor), or Touch (Drag).
+- Mobile Support: Automatically detects mobile devices and defaults to Touch controls.
