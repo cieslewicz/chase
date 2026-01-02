@@ -1,0 +1,13 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body (Spiky) -->
+  <path d="M50,15 L60,35 L80,25 L75,45 L95,50 L75,60 L80,80 L60,70 L50,90 L40,70 L20,80 L25,60 L5,50 L25,45 L20,25 L40,35 Z" fill="#ff6b6b" stroke="#c92a2a" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Eyes (Angry) -->
+  <path d="M 35 45 L 45 50" stroke="black" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 65 45 L 55 50" stroke="black" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="40" cy="55" r="4" fill="white"/>
+  <circle cx="40" cy="55" r="1.5" fill="black"/>
+  <circle cx="60" cy="55" r="4" fill="white"/>
+  <circle cx="60" cy="55" r="1.5" fill="black"/>
+  <!-- Mouth (Grumpy) -->
+  <path d="M 40 70 Q 50 60 60 70" stroke="black" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

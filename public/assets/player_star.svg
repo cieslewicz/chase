@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body -->
+  <polygon points="50 5 61 35 95 35 68 55 79 85 50 65 21 85 32 55 5 35 39 35" fill="#da77f2" stroke="#9c36b5" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Eyes -->
+  <circle cx="42" cy="50" r="5" fill="white"/>
+  <circle cx="42" cy="50" r="2" fill="black"/>
+  <circle cx="58" cy="50" r="5" fill="white"/>
+  <circle cx="58" cy="50" r="2" fill="black"/>
+  <!-- Mouth -->
+  <path d="M 45 62 Q 50 65 55 62" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

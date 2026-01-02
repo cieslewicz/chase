@@ -34,7 +34,8 @@ body {
 }
 
 canvas {
-  background-color: #333;
+  background-color: #51cf66;
+  /* Grass green */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   max-width: 100%;
