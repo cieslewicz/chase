@@ -62,4 +62,4 @@ npm test
 ```
 
 ---
-Built with [Vite](https://vitejs.dev/) and TypeScript.
+Vibe coded with Google Antigravity. Built with [Vite](https://vitejs.dev/) and TypeScript.
