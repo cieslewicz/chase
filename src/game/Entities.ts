@@ -62,7 +62,7 @@ export class Player extends Entity {
     speed: number = 250; // pixels per second
 
     constructor(x: number, y: number, charType: string) {
-        super(x, y, 50, `/assets/player_${charType}.svg`);
+        super(x, y, 50, `assets/player_${charType}.svg`);
     }
 
     move(directions: { up: boolean; down: boolean; left: boolean; right: boolean }, dt: number) {
@@ -118,7 +118,7 @@ export class BadGuy extends Entity {
     speed: number;
 
     constructor(x: number, y: number) {
-        super(x, y, 50, '/assets/bad_guy.svg');
+        super(x, y, 50, 'assets/bad_guy.svg');
         this.speed = this.baseSpeed;
     }
 
