@@ -2,6 +2,8 @@
 
 **Chase** is a fast-paced, arcade-style web game where you race against time to collect apples while avoiding a relentless pursuer.
 
+I built this game with my second grader to show how to vibe code a web app from a prototype they built in scratch.
+
 ![Game Screenshot](https://via.placeholder.com/800x400?text=Chase+Configuration+Screenshot+Placeholder)
 
 ## 🎮 How to Play
