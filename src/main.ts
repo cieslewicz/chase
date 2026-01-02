@@ -11,7 +11,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <canvas id="gameCanvas"></canvas>
   
   <div id="start-screen" class="screen">
-    <h1>Andrew's Game</h1>
+    <h1>Chase</h1>
     <div class="character-select">
       <div class="char-option selected" data-char="circle">
         <img src="/assets/player_circle.svg" alt="Circle" />
