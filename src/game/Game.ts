@@ -147,6 +147,7 @@ export class Game {
 
     start(charType: string, settings: { audio: boolean; difficulty: number; inputType: string }) {
         this.settings = settings;
+        this.canvas.focus(); // Ensure focus for keyboard input
         if (this.settings.audio && !this.audioCtx) {
             this.audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
         }

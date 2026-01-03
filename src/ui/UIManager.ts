@@ -92,15 +92,20 @@ export class UIManager {
             }
         }
         // Restrict controls: Remove Keyboard/Mouse, force Touch
+        // Restrict controls: Add Touch, don't remove others (hybrid devices)
         if (inputSelect) {
-            inputSelect.innerHTML = ''; // Clear existing
+            // Check if touch option already exists
+            if (!inputSelect.querySelector('option[value="touch"]')) {
+                const opt = document.createElement('option');
+                opt.value = 'touch';
+                opt.textContent = 'Touch (Grab & Drag)';
+                inputSelect.appendChild(opt);
+            }
 
-            const opt = document.createElement('option');
-            opt.value = 'touch';
-            opt.textContent = 'Touch (Grab & Drag)';
-            inputSelect.appendChild(opt);
-
-            inputSelect.value = 'touch';
+            // Auto-select Touch only if small screen (likely phone)
+            if (window.innerWidth < 768) {
+                inputSelect.value = 'touch';
+            }
         }
 
         // Default to Easy Difficulty on Mobile

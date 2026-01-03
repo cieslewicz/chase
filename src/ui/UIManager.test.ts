@@ -65,6 +65,11 @@ describe('UIManager', () => {
             writable: true,
             value: true
         });
+        // Mock Screen Size
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            value: 500
+        });
 
         // Mock Select Element
         const diffSelect = document.createElement('select');
@@ -90,7 +95,8 @@ describe('UIManager', () => {
 
         // Check inputs restricted
         const restrictedSelect = document.getElementById('input-select') as HTMLSelectElement;
-        expect(restrictedSelect.options.length).toBe(1);
+        // Should have "touch" option
+        expect(restrictedSelect.querySelector('option[value="touch"]')).not.toBeNull();
         expect(restrictedSelect.value).toBe('touch');
 
         // Check instructions
