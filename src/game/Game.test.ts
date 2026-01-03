@@ -369,6 +369,7 @@ describe('Game Logic', () => {
     // --- Power-up Tests ---
     it('should spawn golden apple when time is low', () => {
         game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+        game.obstacles = []; // Ensure valid spawn
         game.time = 15; // < 20
 
         // Mock random to hit golden apple chance (< 0.2)

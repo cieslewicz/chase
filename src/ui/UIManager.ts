@@ -81,28 +81,30 @@ export class UIManager {
 
         if (isTouch) {
             // Update Text
-            if (instructions) {
-                instructions.innerHTML = `
-                    Drag your character with your finger to eat apples and avoid the bad guy.
+            instructions.innerHTML = `
+                   <p><strong>Objective:</strong> Drag to move! Eat apples, avoid the Bad Guy.</p>
+                   
+                   <p><img src="assets/apple.svg" class="apple-icon"> <strong>+1s</strong> & 1 Point</p>
+                   <p><img src="assets/apple_golden.svg" class="apple-icon"> <strong>+15s</strong> (Time < 20s)</p>
+                   <p><img src="assets/apple_green.svg" class="apple-icon"> <strong>Slows Bad Guy</strong></p>
                 `;
-            }
-            // Restrict controls: Remove Keyboard/Mouse, force Touch
-            if (inputSelect) {
-                inputSelect.innerHTML = ''; // Clear existing
+        }
+        // Restrict controls: Remove Keyboard/Mouse, force Touch
+        if (inputSelect) {
+            inputSelect.innerHTML = ''; // Clear existing
 
-                const opt = document.createElement('option');
-                opt.value = 'touch';
-                opt.textContent = 'Touch (Grab & Drag)';
-                inputSelect.appendChild(opt);
+            const opt = document.createElement('option');
+            opt.value = 'touch';
+            opt.textContent = 'Touch (Grab & Drag)';
+            inputSelect.appendChild(opt);
 
-                inputSelect.value = 'touch';
-            }
+            inputSelect.value = 'touch';
+        }
 
-            // Default to Easy Difficulty on Mobile
-            const diffSelect = document.getElementById('difficulty-select') as HTMLSelectElement;
-            if (diffSelect) {
-                diffSelect.value = "5";
-            }
+        // Default to Easy Difficulty on Mobile
+        const diffSelect = document.getElementById('difficulty-select') as HTMLSelectElement;
+        if (diffSelect) {
+            diffSelect.value = "5";
         }
     }
 

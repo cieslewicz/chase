@@ -29,11 +29,25 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </div>
     <button id="btn-start">Start Game</button>
     <button id="btn-settings">Settings</button>
-    <p class="instructions">
-      Control your character with the arrow keys to eat as many apples as you can and avoid the bad guy.
-      <br>
-      You can switch to mouse control in the Settings menu.
-    </p>
+    <div class="instructions">
+      <p><strong>Objective:</strong> Eat as many apples as you can before time runs out! Avoid the Bad Guy.</p>
+      
+      <p>
+        <img src="assets/apple.svg" class="apple-icon"> <strong>+1s</strong> & 1 Point
+      </p>
+      <p>
+        <img src="assets/apple_golden.svg" class="apple-icon"> <strong>+15s</strong> (Appear when time is low)
+      </p>
+      <p>
+        <img src="assets/apple_green.svg" class="apple-icon"> <strong>Slows Bad Guy</strong> (Appear when he's fast)
+      </p>
+
+      <p style="margin-top: 1rem; font-size: 0.8rem; text-align: center; color: #888;">
+        Controls: Arrow Keys / WASD
+        <br>
+        (Change to Mouse in Settings)
+      </p>
+    </div>
   </div>
 
   <div id="game-over-screen" class="screen hidden">

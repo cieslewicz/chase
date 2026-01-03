@@ -94,8 +94,8 @@ describe('UIManager', () => {
         expect(restrictedSelect.value).toBe('touch');
 
         // Check instructions
-        const instructionsEl = document.querySelector('.instructions') as HTMLElement;
-        expect(instructionsEl.innerHTML).toContain('Drag your character');
-        expect(instructionsEl.innerHTML).not.toContain('change controls');
+        const instructions = document.querySelector('.instructions') as HTMLElement;
+        expect(instructions.innerHTML).toContain('Drag to move');
+        expect(instructions.innerHTML).not.toContain('change controls');
     });
 });
