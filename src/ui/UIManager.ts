@@ -105,13 +105,13 @@ export class UIManager {
             // Auto-select Touch only if small screen (likely phone)
             if (window.innerWidth < 768) {
                 inputSelect.value = 'touch';
-            }
-        }
 
-        // Default to Easy Difficulty on Mobile
-        const diffSelect = document.getElementById('difficulty-select') as HTMLSelectElement;
-        if (diffSelect) {
-            diffSelect.value = "5";
+                // Default to Easy Difficulty on Mobile
+                const diffSelect = document.getElementById('difficulty-select') as HTMLSelectElement;
+                if (diffSelect) {
+                    diffSelect.value = "5";
+                }
+            }
         }
     }
 

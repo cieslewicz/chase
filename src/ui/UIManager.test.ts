@@ -105,6 +105,33 @@ describe('UIManager', () => {
         expect(instructions.innerHTML).not.toContain('change controls');
     });
 
+    it('should default to Medium difficulty on Desktop', () => {
+        // Mock Desktop Environment
+        Object.defineProperty(window, 'ontouchstart', {
+            writable: true,
+            value: undefined
+        });
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            value: 1024
+        });
+        (navigator as any).maxTouchPoints = 0;
+
+        // Mock Select Element
+        const diffSelect = document.createElement('select');
+        diffSelect.id = 'difficulty-select';
+        diffSelect.innerHTML = `
+            <option value="5">Easy</option>
+            <option value="10" selected>Medium</option>
+            <option value="20">Hard</option>
+        `;
+        document.body.appendChild(diffSelect);
+
+        ui.checkMobile();
+
+        expect(diffSelect.value).toBe("10"); // Should stay Medium
+    });
+
     it('should successfully run checkMobile even if instructions element is missing', () => {
         // Mock Touch Environment
         Object.defineProperty(window, 'ontouchstart', {
