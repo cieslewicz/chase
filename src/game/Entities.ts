@@ -116,6 +116,7 @@ export class Player extends Entity {
 export class BadGuy extends Entity {
     baseSpeed: number = 80;
     speed: number;
+    speedMultiplier: number = 1.0;
 
     constructor(x: number, y: number) {
         super(x, y, 50, 'assets/bad_guy.svg');
@@ -124,7 +125,7 @@ export class BadGuy extends Entity {
 
     update(player: Player, dt: number, score: number) {
         // Speed increases with score
-        this.speed = this.baseSpeed + (score * 5); // Increase by 5 for every point
+        this.speed = (this.baseSpeed + (score * 5)) * this.speedMultiplier;
 
         const pBounds = player.getBounds();
         const mBounds = this.getBounds();
@@ -143,9 +144,18 @@ export class BadGuy extends Entity {
     }
 }
 
+export type AppleType = 'standard' | 'golden' | 'green';
+
 export class Apple extends Entity {
-    constructor(x: number, y: number) {
-        super(x, y, 40, 'assets/apple.svg'); // Relative path
+    type: AppleType;
+
+    constructor(x: number, y: number, type: AppleType = 'standard') {
+        let src = 'assets/apple.svg'; // Standard
+        if (type === 'golden') src = 'assets/apple_golden.svg';
+        if (type === 'green') src = 'assets/apple_green.svg';
+
+        super(x, y, 40, src);
+        this.type = type;
     }
 }
 

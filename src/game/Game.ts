@@ -274,9 +274,27 @@ export class Game {
         while (!valid && attempts < 20) {
             const x = Math.random() * (this.canvas.width - 40);
             const y = Math.random() * (this.canvas.height - 40);
-            // 20 is approx radius
+
             if (this.isValidSpawn(x, y, 20)) {
-                this.apples.push(new Apple(x, y));
+                // Determine Apple Type
+                let type: 'standard' | 'golden' | 'green' = 'standard';
+                const rand = Math.random();
+
+                // Logic for Golden Apple: Time < 20s
+                if (this.time < 20 && rand < 0.2) {
+                    type = 'golden';
+                }
+                // Logic for Green Apple: Bad Guy Speed > 80% of Player Speed (approx 200)
+                // Base speed is 80, +5 per score. Score 24 => 200 speed.
+                else if (this.badGuy && this.player && this.badGuy.speed > (this.player.speed * 0.8)) {
+                    // Logic: Less likely as score gets very high? 
+                    // Let's keep it simple: small chance if fast
+                    if (rand < 0.1) {
+                        type = 'green';
+                    }
+                }
+
+                this.apples.push(new Apple(x, y, type));
                 valid = true;
             }
             attempts++;
@@ -372,11 +390,32 @@ export class Game {
     }
 
     eatApple(index: number) {
+        const apple = this.apples[index];
         this.apples.splice(index, 1);
-        this.score += 1;
-        this.time += 1;
+
+        // Effects based on Type
+        if (apple.type === 'golden') {
+            this.time += 15;
+            this.playSound(660, 0.2); // Higher pitch for powerup
+        } else if (apple.type === 'green') {
+            if (this.badGuy) {
+                this.badGuy.speedMultiplier *= 0.5; // Halve speed logic
+                // Maybe ensure it doesn't get too slow? Or just let it be.
+            }
+            this.playSound(220, 0.2); // Lower pitch "freeze" sound?
+            // Still adds score? Request implied power-ups. Usually power-ups are separate or additive.
+            // Let's assume they give points too, or maybe not? 
+            // "continued to increase... but from a slower speed"
+            // Let's add 1 point still to keep "collect more apples" mechanic consistent.
+            this.score += 1;
+        } else {
+            // Standard
+            this.score += 1;
+            this.time += 1; // Standard adds 1s
+            this.playSound(440, 0.1);
+        }
+
         this.onScoreUpdate(this.score);
-        this.playSound(440, 0.1); // Beep
         this.updateLevel();
     }
 

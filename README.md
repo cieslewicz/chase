@@ -9,6 +9,8 @@ I built this game with my second grader to show how to vibe code a web app from 
 ## 🎮 How to Play
 - **Goal**: Collect as many apples as you can before time runs out!
 - **Time**: You start with 60 seconds. Each apple adds 1 second.
+    - **Golden Apple**: Adds **15 seconds**! (Appears when time is low).
+    - **Green Apple**: **Slows down** the Bad Guy! (Appears when he gets fast).
 - **Avoid**:
     - **The Bad Guy**: A red enemy that chases you. (Touch = Game Over)
     - **Obstacles**: Static gray blocks. (They block your path)

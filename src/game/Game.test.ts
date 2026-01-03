@@ -1,7 +1,9 @@
 /// <reference types="vitest" />
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Game } from './Game';
+import { UIManager } from '../ui/UIManager';
+import { Game } from '../game/Game';
+import { Apple } from './Entities'; // Import Apple for type checking in test
 import { Obstacle } from './Entities';  // Import Obstacle
 import { Entity } from './Entities';
 
@@ -116,6 +118,7 @@ describe('Game Logic', () => {
     });
     it('should move player towards mouse position when inputType is mouse', () => {
         game.start('circle', { audio: false, difficulty: 5, inputType: 'mouse' });
+        game.obstacles = []; // Clear obstacles to ensure valid movement
 
         // Mock mouse position
         game.mouseX = 400;
@@ -354,12 +357,62 @@ describe('Game Logic', () => {
         // Check collision with obstacles
         for (const obs of game.obstacles) {
             const tempEntity = {
-                x: game.badGuy!.x - 20, // Approx radius/hitbox
+                x: game.badGuy!.x - 20,
                 y: game.badGuy!.y - 20,
                 width: 40,
                 height: 40
             };
             expect(obs.checkCollision(tempEntity as any)).toBe(false);
         }
+    });
+
+    // --- Power-up Tests ---
+    it('should spawn golden apple when time is low', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+        game.time = 15; // < 20
+
+        // Mock random to hit golden apple chance (< 0.2)
+        // Default Math.random() is hard to mock deterministically directly in JSDOM environment without library
+        // But we can monkey patch it temporarily if needed, or stub it with vi.spyOn(Math, 'random')
+
+        const randomSpy = vi.spyOn(Math, 'random');
+        // 1st call: spawn location X (ok)
+        // 2nd call: spawn location Y (ok)
+        // 3rd call: Apple Type chance. make it 0.1 (< 0.2)
+        randomSpy.mockReturnValueOnce(0.5).mockReturnValueOnce(0.5).mockReturnValueOnce(0.1);
+
+        game.spawnApple();
+        const apple = game.apples[game.apples.length - 1];
+        expect(apple.type).toBe('golden');
+
+        randomSpy.mockRestore();
+    });
+
+    it('golden apple should add 15 seconds', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+        game.apples = [new Apple(200, 200, 'golden')];
+        game.time = 10;
+
+        game.eatApple(0);
+        expect(game.time).toBe(25); // 10 + 15
+    });
+
+    it('green apple should halve bad guy speed', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+        game.score = 24; // Force high speed
+        // Base speed = 80 + (24*5) = 200.
+
+        game.badGuy!.update(game.player!, 0.1, game.score);
+
+        game.apples = [new Apple(200, 200, 'green')];
+        game.eatApple(0);
+        // Score becomes 25. New Base = 80 + (25*5) = 205.
+        // Multiplier = 0.5.
+        // Expected Speed = 205 * 0.5 = 102.5.
+
+        // Update again to apply multiplier
+        game.badGuy!.update(game.player!, 0.1, game.score);
+        expect(game.badGuy!.speed).toBe(102.5);
+        expect(game.badGuy!.speedMultiplier).toBe(0.5);
     });
 });

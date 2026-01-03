@@ -12,6 +12,10 @@ The game will have a score. The player will gain points for collecting apples.
 
 Apples will be worth 1 point. New apples will spawn in random locations every 2 seconds. Each apple will add 1 second to the time.
 
+Special "Power-up" Apples will sometimes appear:
+- **Golden Apple (Clock)**: Spawns when time starts running low (under 20s). Adds **15 seconds** to the clock!
+- **Green Apple (Chill)**: Spawns when the Bad Guy gets too fast. **Halves** the Bad Guy's speed to give you a breather.
+
 The game will have Levels based on the score. Every 10 points, the background color will change to indicate a new level.
 
 There is no penalty for colliding with obstacles.
