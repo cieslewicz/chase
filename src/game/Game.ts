@@ -197,6 +197,18 @@ export class Game {
                 return false;
             }
         }
+
+        // Check Player Distance (prevent instant eat)
+        if (this.player) {
+            const dist = Math.hypot(x - this.player.x, y - this.player.y);
+            if (dist < 100) return false;
+        }
+
+        // Check Bad Guy Distance (prevent confusion/unfairness)
+        if (this.badGuy) {
+            const dist = Math.hypot(x - this.badGuy.x, y - this.badGuy.y);
+            if (dist < 100) return false;
+        }
         return true;
     }
 

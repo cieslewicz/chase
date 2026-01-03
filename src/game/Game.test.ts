@@ -438,4 +438,30 @@ describe('Game Logic', () => {
 
         expect(game.keys.right).toBe(false);
     });
+
+    it('should not block bad guy movement if apple spawns on top', () => {
+        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
+
+        // Position Bad Guy
+        const bg = game.badGuy!;
+        bg.x = 200;
+        bg.y = 200;
+
+        // Spawn Apple on top
+        game.apples.push(new Apple(200, 200));
+
+        // Move Player far away
+        game.player!.x = 600;
+        game.player!.y = 600;
+
+        const initialX = bg.x;
+        const initialY = bg.y;
+
+        // Update
+        game.update(0.1);
+
+        // Bad Guy should move towards player
+        expect(bg.x).not.toBe(initialX);
+        expect(bg.y).not.toBe(initialY);
+    });
 });
