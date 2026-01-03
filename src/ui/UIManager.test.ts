@@ -98,4 +98,22 @@ describe('UIManager', () => {
         expect(instructions.innerHTML).toContain('Drag to move');
         expect(instructions.innerHTML).not.toContain('change controls');
     });
+
+    it('should successfully run checkMobile even if instructions element is missing', () => {
+        // Mock Touch Environment
+        Object.defineProperty(window, 'ontouchstart', {
+            writable: true,
+            value: true
+        });
+
+        // Ensure NO instructions element exists in the DOM
+        const instructions = document.querySelector('.instructions');
+        if (instructions) {
+            instructions.remove();
+        }
+
+        // Run checkMobile
+        // Expect NO error to be thrown
+        expect(() => ui.checkMobile()).not.toThrow();
+    });
 });

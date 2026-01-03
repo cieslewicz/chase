@@ -81,13 +81,15 @@ export class UIManager {
 
         if (isTouch) {
             // Update Text
-            instructions.innerHTML = `
+            if (instructions) {
+                instructions.innerHTML = `
                    <p><strong>Objective:</strong> Drag to move! Eat apples, avoid the Bad Guy.</p>
                    
                    <p><img src="assets/apple.svg" class="apple-icon"> <strong>+1s</strong> & 1 Point</p>
                    <p><img src="assets/apple_golden.svg" class="apple-icon"> <strong>+15s</strong> (Time < 20s)</p>
                    <p><img src="assets/apple_green.svg" class="apple-icon"> <strong>Slows Bad Guy</strong></p>
                 `;
+            }
         }
         // Restrict controls: Remove Keyboard/Mouse, force Touch
         if (inputSelect) {
