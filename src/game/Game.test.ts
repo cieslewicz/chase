@@ -379,36 +379,29 @@ describe('Game Logic', () => {
         game.obstacles = []; // Ensure valid spawn
         game.time = 15; // < 20
 
-        // Mock random to hit golden apple chance (< 0.2)
-        // Default Math.random() is hard to mock deterministically directly in JSDOM environment without library
-        // But we can monkey patch it temporarily if needed, or stub it with vi.spyOn(Math, 'random')
+        // Force time to be low (< 45)
+        game.time = 40;
 
-        const randomSpy = vi.spyOn(Math, 'random');
-        // 1st call: spawn location X (ok)
-        // 2nd call: spawn location Y (ok)
-        // 3rd call: Apple Type chance. make it 0.1 (< 0.2)
-        randomSpy.mockReturnValueOnce(0.5).mockReturnValueOnce(0.5).mockReturnValueOnce(0.1);
+        // Force RNG to spawn golden (< 0.25)
+        vi.spyOn(Math, 'random').mockReturnValue(0.1);
 
         game.spawnApple();
         const apple = game.apples[game.apples.length - 1];
         expect(apple.type).toBe('golden');
-
-        randomSpy.mockRestore();
     });
 
     it('golden apple should add 15 seconds', () => {
-        game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
-        game.apples = [new Apple(200, 200, 'golden')];
         game.time = 10;
-
+        game.apples = [new Apple(0, 0, 'golden')];
         game.eatApple(0);
-        expect(game.time).toBe(25); // 10 + 15
+        expect(game.time).toBe(25);
     });
 
     it('green apple should halve bad guy speed', () => {
         game.start('circle', { audio: false, difficulty: 5, inputType: 'keyboard' });
         game.score = 24; // Force high speed
         // Base speed = 80 + (24*5) = 200.
+        // Player speed ~250. 200 is > 60% of 250 (150).
 
         game.badGuy!.update(game.player!, 0.1, game.score);
 

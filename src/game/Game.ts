@@ -282,15 +282,13 @@ export class Game {
                 const rand = Math.random();
 
                 // Logic for Golden Apple: Time < 20s
-                if (this.time < 20 && rand < 0.2) {
+                // Logic for Golden Apple: Time < 45s (was 20s), 25% chance
+                if (this.time < 45 && rand < 0.25) {
                     type = 'golden';
                 }
-                // Logic for Green Apple: Bad Guy Speed > 80% of Player Speed (approx 200)
-                // Base speed is 80, +5 per score. Score 24 => 200 speed.
-                else if (this.badGuy && this.player && this.badGuy.speed > (this.player.speed * 0.8)) {
-                    // Logic: Less likely as score gets very high? 
-                    // Let's keep it simple: small chance if fast
-                    if (rand < 0.1) {
+                // Logic for Green Apple: Bad Guy Speed > 60% of Player Speed (was 80%), 15% chance
+                else if (this.badGuy && this.player && this.badGuy.speed > (this.player.speed * 0.6)) {
+                    if (rand < 0.15) {
                         type = 'green';
                     }
                 }
