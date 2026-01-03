@@ -63,13 +63,6 @@ Run the test suite with:
 npm test
 ```
 
-## 📊 Analytics
-To track player counts using Google Analytics (GA4):
-1.  Go to [analytics.google.com](https://analytics.google.com/) and create a free account.
-2.  Create a property and get your **Measurement ID** (starts with `G-`).
-3.  Open `index.html`.
-4.  Uncomment the script block in the `<head>`.
-5.  Replace `G-XXXXXXXXXX` with your actual ID.
 
 ---
 Vibe coded with Google Antigravity. Built with [Vite](https://vitejs.dev/) and TypeScript.
